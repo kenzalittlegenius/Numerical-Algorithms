@@ -18,6 +18,7 @@
 #include <iostream>
 #include <new>
 #include <time.h>
+#define EPSILON 0.001
 
 //------------------------------------------------
 // DEFINITIONS -----------------------------------
