@@ -485,7 +485,7 @@ int main(int argc, char **argv) {
 
     // valeurs initiale
     double x0 = 0.10;
-    //printf("%f\n",newton(x0));
+    printf("%f\n",newton(x0));
 
 
 

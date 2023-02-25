@@ -428,13 +428,32 @@ double derivee2(double c, int N) {
     return (-func1 + 8*func2 - 8*func3 + func4) / (12*EPSILON);
 }
 
+
+/* 1b -Utiliser comme derivee la derivee analytique*/
+double deriveeAnalytique(double c, int N){
+    double sum1;
+    double sum2;
+
+    double arrayY[] = {0.11, 0.24, 0.27, 0.52, 1.13, 1.54, 1.71, 1.84, 1.92, 2.01};
+
+    for (int i=0; i < N; i++) {
+
+        double yPuissanceC = pow(arrayY[i], c);
+        double lnY = log(arrayY[i]);
+            sum1 = sum1 + yPuissanceC * CARRE(lnY);
+            sum2 = sum2 + yPuissanceC * lnY;
+    }
+
+    return sum1 / sum2 + 1/CARRE(c);
+}
+
 /*Methode de Newton pour trouver la racine de func*/
 double newton(double x)
 {
-    double h = func(x,10) / derivee(x,10);
+    double h = func(x,10) / deriveeAnalytique(x,10);
     while (abs(h) >= EPSILON)
     {
-        h = func(x,10)/derivee(x,10);
+        h = func(x,10)/deriveeAnalytique(x,10);
 
         // x(i+1) = x(i) - f(x) / f'(x)
         x = x - h;
@@ -483,13 +502,10 @@ int main(int argc, char **argv) {
     //---------------------------
 
     //implementer ici
-    //func(1,10);
-    //
-    printf("%f\n",derivee2(1,10));
 
     // valeurs initiale
     double x0 = 0.10;
-    //printf("%f\n",newton(x0));
+    printf("%f\n",newton(x0));
 
 
 
