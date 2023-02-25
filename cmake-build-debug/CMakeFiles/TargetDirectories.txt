@@ -1,0 +1,3 @@
+/home/jaydan/Documents/Numerical-Algorithms-main/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/jaydan/Documents/Numerical-Algorithms-main/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/jaydan/Documents/Numerical-Algorithms-main/cmake-build-debug/CMakeFiles/Numerical_Algorithms_main.dir

@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/jaydan/Documents/Numerical-Algorithms-main/TP1/TP1-IFT2425-I.1.c
+stdio.h
+-
+math.h
+-
+stdlib.h
+-
+string.h
+-
+iostream
+-
+new
+-
+time.h
+-
+X11/Xutil.h
+-
+
