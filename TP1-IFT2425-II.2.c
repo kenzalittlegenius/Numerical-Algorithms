@@ -428,38 +428,79 @@ double derivee2(double c, int N) {
     return (-func1 + 8*func2 - 8*func3 + func4) / (12*EPSILON);
 }
 
-
-/* 1b -Utiliser comme derivee la derivee analytique*/
-double deriveeAnalytique(double c, int N){
-    double sum1;
-    double sum2;
-
-    double arrayY[] = {0.11, 0.24, 0.27, 0.52, 1.13, 1.54, 1.71, 1.84, 1.92, 2.01};
-
-    for (int i=0; i < N; i++) {
-
-        double yPuissanceC = pow(arrayY[i], c);
-        double lnY = log(arrayY[i]);
-            sum1 = sum1 + yPuissanceC * CARRE(lnY);
-            sum2 = sum2 + yPuissanceC * lnY;
-    }
-
-    return sum1 / sum2 + 1/CARRE(c);
-}
-
 /*Methode de Newton pour trouver la racine de func*/
 double newton(double x)
 {
-    double h = func(x,10) / deriveeAnalytique(x,10);
+    double h = func(x,10) / derivee(x,10);
     while (abs(h) >= EPSILON)
     {
-        h = func(x,10)/deriveeAnalytique(x,10);
+        h = func(x,10)/derivee(x,10);
 
         // x(i+1) = x(i) - f(x) / f'(x)
         x = x - h;
     }
     return(x);
 }
+
+/*MandelBrot*/
+
+void mandelbrot(int width, int length, float** Graph2D) {
+    int nbIterMax;
+    double* xB;
+    double* jImaginaire;
+
+    nbIterMax = 200;
+    xB = new double[nbIterMax];
+    jImaginaire = new double[nbIterMax];
+
+    for (double i = 0; i < length; i += 0.1){
+        for (double j = 0; j < width; j += 0.1){
+            double cX;
+            double cJ;
+            double zX;
+            double zJ;
+
+            cX = 2.0 * (j - width / 1.35) / (width - 1);
+            cJ = 2.0 * (i - length / 2.0) / (length - 1);
+            zX = 0;
+            zJ = 0;
+
+            for (int iteration = 0; iteration < nbIterMax; iteration++){
+                double tmpX;
+                double tmpJ;
+
+                tmpX = CARRE(zX) - CARRE(zJ) + cX;
+                tmpJ = 2 * zX * zJ + cJ;
+
+                if (CARRE(tmpX) + CARRE(tmpJ) > 2.0){
+
+                    for (int s = 0; s < iteration; s++){
+                        int ptJ;
+                        int ptI;
+
+                        ptJ = xB[s] * (width - 1) / 2.0 + (width / 1.35);
+                        ptI = jImaginaire[s] * (length - 1) / 2.0 + (length / 2.0);
+
+                        if (ptI < 0 || ptI >= length || ptJ < 0 || ptJ >= width){
+                            goto loop;
+                        }
+
+
+                        Graph2D[ptI][ptJ] += 1;
+                    }
+                    break;
+                }
+
+                else { zX = tmpX; zJ = tmpJ; }
+                xB[iteration] = zX;
+                jImaginaire[iteration] = zJ;
+            }
+
+            loop:;
+        }
+    }
+}
+
 
 
 
@@ -504,8 +545,7 @@ int main(int argc, char **argv) {
     //implementer ici
 
     // valeurs initiale
-    double x0 = 0.10;
-    printf("%f\n",newton(x0));
+    mandelbrot(width, length, Graph2D);
 
 
 

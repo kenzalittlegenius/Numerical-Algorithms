@@ -428,38 +428,73 @@ double derivee2(double c, int N) {
     return (-func1 + 8*func2 - 8*func3 + func4) / (12*EPSILON);
 }
 
-
-/* 1b -Utiliser comme derivee la derivee analytique*/
-double deriveeAnalytique(double c, int N){
-    double sum1;
-    double sum2;
-
-    double arrayY[] = {0.11, 0.24, 0.27, 0.52, 1.13, 1.54, 1.71, 1.84, 1.92, 2.01};
-
-    for (int i=0; i < N; i++) {
-
-        double yPuissanceC = pow(arrayY[i], c);
-        double lnY = log(arrayY[i]);
-            sum1 = sum1 + yPuissanceC * CARRE(lnY);
-            sum2 = sum2 + yPuissanceC * lnY;
-    }
-
-    return sum1 / sum2 + 1/CARRE(c);
-}
-
 /*Methode de Newton pour trouver la racine de func*/
 double newton(double x)
 {
-    double h = func(x,10) / deriveeAnalytique(x,10);
+    double h = func(x,10) / derivee(x,10);
     while (abs(h) >= EPSILON)
     {
-        h = func(x,10)/deriveeAnalytique(x,10);
+        h = func(x,10)/derivee(x,10);
 
         // x(i+1) = x(i) - f(x) / f'(x)
         x = x - h;
     }
     return(x);
 }
+
+/*MandelBrot*/
+
+void mandelbrot(int width, int length, float** Graph2D) {
+    int NbIterMax;
+    int zDivergence;
+    double cAbs;
+    double cOrd;
+
+    NbIterMax = 200;
+    zDivergence = 2;
+
+    for (int k=0; k < width; k++) {
+        for (int l=0; l < length; l++) {
+
+            double zX0;
+            double zY0;
+            double zXk;
+            double zYl;
+            double zN;
+            int color;
+
+            zX0 = 0;
+            zY0 = 0;
+            zXk = 0;
+            zYl = 0;
+            zN = 0;
+
+            color = 0;
+
+            cAbs = 2.0 * (k - width/1.35)/(width - 1);
+            cOrd = 2.0 * (l - length/2.0)/(length - 1);
+
+            for (int i=0; i < NbIterMax; i++) {
+                double zNSqrt;
+
+                zXk = CARRE(zX0) - CARRE(zY0) + cAbs;
+                zYl = 2 * zX0 * zY0 + cOrd;
+                zN = sqrt(CARRE(zXk) + CARRE(zYl));
+
+                zNSqrt = sqrt(zN);
+                if (zNSqrt > zDivergence) {
+
+                    color = 255;
+                }
+
+                zX0 = zXk;
+                zY0 = zYl;
+            }
+            Graph2D[k][l] = color;
+        }
+    }
+}
+
 
 
 
@@ -504,8 +539,7 @@ int main(int argc, char **argv) {
     //implementer ici
 
     // valeurs initiale
-    double x0 = 0.10;
-    printf("%f\n",newton(x0));
+    mandelbrot(width, length, Graph2D);
 
 
 

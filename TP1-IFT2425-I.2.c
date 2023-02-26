@@ -1,7 +1,7 @@
 //------------------------------------------------------
 // module  : Tp-IFT2425-I.1.c
-// author  : 
-// date    : 
+// author  : Kenza Benmansour et Marguerite Mireille Camara
+// date    : 27/02/2023
 // version : 1.0
 // language: C
 // note    :
